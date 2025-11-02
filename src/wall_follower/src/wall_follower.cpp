@@ -23,6 +23,11 @@ WallFollower::WallFollower()
 	robot_pose_ = 0.0;
 	near_start = false;
 
+	last_left_front_ = 0.0;
+	marker_detected_ = false;
+	marker_log_.open("/home/ubuntu/turtlebot3_ws/src/wall_follower/landmarks.csv", std::ios::out | std::ios::trunc);
+	marker_log_ << "x,y\n";
+
 	/************************************************************
 	** Initialise ROS publishers and subscribers
 	************************************************************/
@@ -57,6 +62,37 @@ WallFollower::WallFollower()
 WallFollower::~WallFollower()
 {
 	RCLCPP_INFO(this->get_logger(), "Wall follower node has been terminated");
+}
+
+/********************************************************************************
+** Helper function
+********************************************************************************/
+bool WallFollower::detect_cylinder_marker()
+{
+    double left_front = scan_data_[LEFT_FRONT];
+    
+    // If previous scan was stable, detect a sudden close object (marker)
+    if (!marker_detected_ && left_front < 0.25 && last_left_front_ > 0.4) {
+        marker_detected_ = true;  // avoid multiple logs for same cylinder
+        return true;
+    }
+
+    // Once we’ve passed it (distance returns to normal), reset flag
+    if (marker_detected_ && left_front > 0.4) {
+        marker_detected_ = false;
+    }
+
+    last_left_front_ = left_front;
+    return false;
+}
+
+void WallFollower::log_marker_position()
+{
+    if (marker_log_.is_open()) {
+        marker_log_ << current_x_ << "," << current_y_ << "\n";
+        marker_log_.flush();
+    }
+    RCLCPP_INFO(this->get_logger(), "Cylinder marker detected at (%.2f, %.2f)", current_x_, current_y_);
 }
 
 /********************************************************************************
@@ -202,6 +238,10 @@ void WallFollower::update_callback()
         // }
     }
     // if (fp) fclose(fp);
+
+	if (detect_cylinder_marker()) {
+        log_marker_position();
+    }
 }
 
 

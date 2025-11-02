@@ -65,6 +65,13 @@ private:
 	bool near_start; 
 	double scan_data_[12];
 
+	// For detecting marker positions
+	double last_left_front_;
+    bool marker_detected_;
+    std::ofstream marker_log_;
+    double current_x_;
+    double current_y_;
+
 	// ROS timer
 	rclcpp::TimerBase::SharedPtr update_timer_;
 
