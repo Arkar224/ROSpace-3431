@@ -24,13 +24,16 @@ from geometry_msgs.msg import Point, PointStamped
 import wall_follower.landmark
 from wall_follower.landmark import marker_type
 
+MIN_DIST = 0.3
+MAX_DIST = 4.0
+
 # field size and camera details for future calculation
 # TODO measure all those again, those are for simulation only
 field_of_view_h = 62.2
 field_of_view_v = 48.8
 focal_length = 3.04
-pixel_size = 0.06  # Raspberry Pi Camera Module v2 pixel size in mm
-real_object_size = 100.0
+pixel_size = 0.389  # Raspberry Pi Camera Module v2 pixel size in mm
+real_object_size = 25
 distance_numerator = real_object_size * focal_length * pixel_size
 
 class SeeMarker(Node):
@@ -116,26 +119,27 @@ class SeeMarker(Node):
 					
 					x, y = polar_to_cartesian(c_d, c_a)
 
-					marker_at.point.x = x
-					marker_at.point.y = y
+					if MIN_DIST <= c_d <= MAX_DIST:
+						marker_at.point.x = x
+						marker_at.point.y = y
 
-#					print(f'Camera coordinates: {x}, {y}')
-					self.point_publisher.publish(marker_at)
-#					self.get_logger().info('Published Point: x=%f, y=%f, z=%f' %
-#						(marker_at.point.x, marker_at.point.y, marker_at.point.z))
+#						print(f'Camera coordinates: {x}, {y}')
+						self.point_publisher.publish(marker_at)
+	#					self.get_logger().info('Published Point: x=%f, y=%f, z=%f' %
+	#						(marker_at.point.x, marker_at.point.y, marker_at.point.z))
 
 
 		# Display camera image
-		cv2.imshow("camera", current_frame)	
-		cv2.waitKey(1)
+		# cv2.imshow("camera", current_frame)	
+		# cv2.waitKey(1)
 
 # FIXME fix the color based on real world one, these are based on simulation
 # - experiment need to be done on this
 colours = {
-	"pink":	 	((154,96,213), (178, 157, 255)),
-	"blue":		((88,151,199), (109, 195, 245)),
-	"green":	((70,145,89), (91, 252, 168)),
-	"yellow":	((17,234,185), (37, 255, 252))
+	"green": ((69, 131, 61), (92, 249, 162)),
+	"blue":	((86, 159, 167), (110, 228, 250)),
+	"yellow": ((15, 188, 153), (37, 255, 251)),
+	"pink":	((154, 71, 188), (178, 168, 255)),
 }
 
 
@@ -157,7 +161,7 @@ def segment(current_frame, hsv_frame, colour):
 
 	# Display masked image
 	# TODO could use this to check if the color detection is correct
-	cv2.imshow("result", result)
+	# cv2.imshow("result", result)
  
 	# Print statistics for each blob (connected component)
 	# assuming the biggest (i.e. largest area) blob is what we want
@@ -206,7 +210,7 @@ def get_stats(blobs, colour):
 					cx += h-w
 				else:
 					cx -= h-w
-			angle = (centre - cx) * field_of_view_h / 120
+			angle = (centre - cx) * field_of_view_h / 160
 			if angle < 0:
 				angle += 360
 			rval = (cx, cy, h, distance, angle)

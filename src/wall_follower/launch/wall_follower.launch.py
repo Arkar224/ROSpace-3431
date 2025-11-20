@@ -2,6 +2,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
+    # this will launch those three nodes, wall_follower, see_marker, point_transformer
     return LaunchDescription([
         Node(
             package='wall_follower',

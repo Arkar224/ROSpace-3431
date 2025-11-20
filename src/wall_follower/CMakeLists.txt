@@ -69,6 +69,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/see_marker.py
   scripts/point_transformer.py
+  scripts/waypoint_navigator.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

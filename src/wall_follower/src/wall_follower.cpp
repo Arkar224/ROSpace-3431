@@ -165,14 +165,14 @@ void WallFollower::update_callback()
         //     fprintf(fp, "FR: %.2f, F: %.2f, LF: %.2f, FL: %.2f | Decision: Lost wall on left front\n",
         //         scan_data_[FRONT_RIGHT], scan_data_[FRONT], scan_data_[LEFT_FRONT], scan_data_[FRONT_LEFT]);
         // }
-    } else if (scan_data_[FRONT] < 0.45) {
+    } else if (scan_data_[FRONT] < 0.46) {
         // fprintf(stderr, "Blocked front\n");
         update_cmd_vel(0.0, -0.6);
         // if (fp) {
         //     fprintf(fp, "FR: %.2f, F: %.2f, LF: %.2f, FL: %.2f | Decision: Blocked front\n",
         //         scan_data_[FRONT_RIGHT], scan_data_[FRONT], scan_data_[LEFT_FRONT], scan_data_[FRONT_LEFT]);
         // }
-    } else if (scan_data_[FRONT_LEFT] < 0.38) {
+    } else if (scan_data_[FRONT_LEFT] < 0.42) {
         // fprintf(stderr, "Blocked front left\n");
         update_cmd_vel(0.12, -0.5);
         // if (fp) {

@@ -50,7 +50,7 @@ class PointTransformer(Node):
 		try:
 			# Lookup the transform from the camera_rgb_optical_frame to the map frame
 			transform = self.tf_buffer.lookup_transform('map', msg.header.frame_id, rclpy.time.Time())
-		except tf2_ros.LookupException as e:
+		except tf2_ros.TransformException as e:
 			self.get_logger().error('Transform lookup failed: %s' % str(e))
 			return
 
@@ -62,7 +62,10 @@ class PointTransformer(Node):
 		map_point = tf2_geometry_msgs.do_transform_point(msg, transform)
 
 		# Print the transformed point in the map frame
-#		self.get_logger().info(f'Mapped {m} marker to /map frame: x={map_point.point.x}, y={map_point.point.y}, z={map_point.point.z}')
+		# with open("marker.csv", "a", newline="") as f:
+		# 	fw = csv.writer(f)
+		# 	fw.writerow([map_point.point.x, map_point.point.y, map_point.point.z])
+		# self.get_logger().info(f'{map_point.point.x},{map_point.point.y},{map_point.point.z}')
 
 		self.marker_position[which_marker].update_position(map_point.point)
 		self.marker_publisher_.publish(self.marker_array)
