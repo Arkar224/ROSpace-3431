@@ -113,48 +113,16 @@ ros2 launch turtle_slam navigation.launch.py map:=~/maps/my_map.yaml
 
 ---
 
-## 📁 Project Structure
-
-```
-turtle-slam/
-├── launch/
-│   ├── slam.launch.py          # SLAM launch file
-│   └── navigation.launch.py    # Navigation launch file
-├── config/
-│   ├── slam_params.yaml        # SLAM configuration
-│   └── nav2_params.yaml        # Navigation parameters
-├── maps/                       # Saved maps
-├── src/
-│   ├── slam_node.py            # Main SLAM node
-│   └── navigation_node.py      # Navigation node
-├── worlds/                     # Gazebo world files
-├── requirements.txt
-└── README.md
-```
-
----
-
 ## 📊 Results
 
 The robot successfully maps indoor environments, producing clean occupancy grid maps with clearly defined walls, corridors, and open spaces. Navigation accuracy is within ±5 cm of the target goal position.
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the UNSW License.
 
 ---
 
