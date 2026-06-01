@@ -1,4 +1,3 @@
-<div align="center">
 # 🐢 Turtle SLAM Project
  
 ---
