@@ -1,15 +1,6 @@
 <div align="center">
 # 🐢 Turtle SLAM Project
  
-![TurtleBot3](https://emanual.robotis.com/assets/images/platform/turtlebot3/overview/turtlebot3_with_logo.png)
- 
-</div>
-> Autonomous robot navigation and mapping using SLAM (Simultaneous Localization and Mapping) with TurtleBot.
- 
-<div align="center">
-![Robot navigating maze](robot.png)
- 
-</div>
 ---
 
 ## 📖 Overview
